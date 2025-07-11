@@ -5,9 +5,12 @@ import java.util.UUID;
 import org.hibernate.annotations.GenericGenerator;
 
 import com.ureca.ocean.jjh.aibackend.common.entity.BaseEntity;
+import com.ureca.ocean.jjh.aibackend.suggestion.entity.enums.Membership;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
@@ -31,6 +34,10 @@ public class User extends BaseEntity {
     @GenericGenerator(name = "uuid2", strategy = "org.hibernate.id.UUIDGenerator")
     @Column(name = "id", nullable = false, columnDefinition = "BINARY(16)")
     private UUID id;
+    
+    @Enumerated(EnumType.STRING)
+    @Column(name = "membership", nullable = false)
+    private Membership membership;
 
     @Column(name = "title")
     private String title;
