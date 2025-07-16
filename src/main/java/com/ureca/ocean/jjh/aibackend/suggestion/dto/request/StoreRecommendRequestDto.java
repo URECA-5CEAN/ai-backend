@@ -4,5 +4,5 @@ import lombok.Data;
 
 @Data
 public class StoreRecommendRequestDto {
-
+	private String request;
 }
