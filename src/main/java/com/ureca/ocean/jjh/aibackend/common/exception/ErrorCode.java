@@ -6,8 +6,13 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public enum ErrorCode {
-    //INTERNAL SERVER ERROR
-    INTERNAL_SERVER_ERROR(20000, "INTERNAL_SERVER_ERROR",  "서버 내부 오류가 발생했습니다.");
+	//auth_backend : 10000
+    //user_backend : 20000
+//    NOT_FOUND_USER(20001,"NOT_FOUND_USER","해당 사용자가 없습니다."),
+    //map_backend : 30000
+
+    //ai_backend : 40000
+	SERVER_ERROR(40001, "SERVER_ERROR", "서버 에러");
 
     private final int code;
     private final String name;

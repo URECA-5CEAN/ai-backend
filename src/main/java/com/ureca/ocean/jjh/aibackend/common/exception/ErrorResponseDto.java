@@ -1,6 +1,4 @@
-package com.ureca.ocean.jjh.aibackend.common;
-
-import com.ureca.ocean.jjh.aibackend.common.exception.ErrorCode;
+package com.ureca.ocean.jjh.aibackend.common.exception;
 
 import lombok.Builder;
 import lombok.Data;
