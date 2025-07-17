@@ -12,7 +12,8 @@ public enum ErrorCode {
     //map_backend : 30000
 
     //ai_backend : 40000
-	SERVER_ERROR(40001, "SERVER_ERROR", "서버 에러");
+	SERVER_ERROR(40001, "SERVER_ERROR", "서버 에러"),
+	PARSING_EEROR(40002, "PARSING_ERROR", "AI 응답 파싱 에러");
 
     private final int code;
     private final String name;
