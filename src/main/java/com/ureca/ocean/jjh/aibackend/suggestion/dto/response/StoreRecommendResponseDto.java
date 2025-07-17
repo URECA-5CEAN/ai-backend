@@ -1,6 +1,6 @@
 package com.ureca.ocean.jjh.aibackend.suggestion.dto.response;
 
-import java.util.UUID;
+import com.ureca.ocean.jjh.aibackend.client.dto.StoreDto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -13,12 +13,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class StoreRecommendResponseDto {
 
-	private UUID storeId;
-	private String storeName;
-	private String storeCategory;
-	private String description;
-	private String adrress;
-	
+	private StoreDto store;
 	private String reason;
 	
 }

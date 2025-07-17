@@ -8,5 +8,5 @@ import com.ureca.ocean.jjh.aibackend.suggestion.dto.response.TitleRecommendRespo
 
 public interface RecommendService {
 	StoreRecommendResponseDto storeRecommend(StoreRecommendRequestDto request);
-	List<TitleRecommendResponseDto> titleRecommend(Long userId);
+	List<TitleRecommendResponseDto> titleRecommend(String email);
 }
