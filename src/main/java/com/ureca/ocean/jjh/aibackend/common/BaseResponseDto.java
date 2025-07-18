@@ -3,11 +3,19 @@ package com.ureca.ocean.jjh.aibackend.common;
 import com.ureca.ocean.jjh.aibackend.common.exception.ErrorCode;
 import com.ureca.ocean.jjh.aibackend.common.exception.ErrorResponseDto;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Data
 @Builder
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class BaseResponseDto<T> {
 
     private Integer statusCode;
