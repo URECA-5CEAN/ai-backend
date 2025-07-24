@@ -1,7 +1,5 @@
 package com.ureca.ocean.jjh.aibackend.client;
 
-import java.util.UUID;
-
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
@@ -23,7 +21,7 @@ public class UserClient {
     private final RestTemplate restTemplate;
     
     public UserDto getUserByEmail(String email) {
-        String url = DomainConstant.USER_URL + "api/user?email="+ email ;
+        String url = DomainConstant.USER_URL + "api/user?email=" + email ;
         System.out.println("url : "+ url);
         ResponseEntity<BaseResponseDto<UserDto>> response = restTemplate.exchange(
                 url,
@@ -36,8 +34,4 @@ public class UserClient {
         return userDto;
     }
     
-    public UserDto getDummyUser() {
-    	return new UserDto(UUID.randomUUID(), "홍길동", "test@.test.com", "password");
-    }
-
 }
