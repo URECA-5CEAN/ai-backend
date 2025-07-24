@@ -1,5 +1,6 @@
 package com.ureca.ocean.jjh.aibackend.client.dto;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 import lombok.AllArgsConstructor;
@@ -11,15 +12,11 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class StoreDto {
-
+public class StoreUsageDto {
 	private UUID id;
-    private String name;
-    private String address;
-    private String category;
-    private Double latitude;
-    private Double longitude;
-
-    private String brandName;
-    private String brandImageUrl;
+    private UUID userId;
+    private UUID storeId;
+    private UUID benefitId;
+    private LocalDateTime visitedAt;
+    private Long benefit;
 }
