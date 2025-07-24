@@ -13,7 +13,8 @@ public enum ErrorCode {
 
     //ai_backend : 40000
 	SERVER_ERROR(40001, "SERVER_ERROR", "서버 에러"),
-	PARSING_EEROR(40002, "PARSING_ERROR", "AI 응답 파싱 에러");
+	PARSING_ERROR(40002, "PARSING_ERROR", "AI 응답 파싱 에러"),
+	CLIENT_CALL_ERROR(40003, "CLIENT_CALL_ERROR", "클라이언트 호출 에러");
 
     private final int code;
     private final String name;
