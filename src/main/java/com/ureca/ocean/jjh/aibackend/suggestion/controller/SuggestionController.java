@@ -17,10 +17,13 @@ import com.ureca.ocean.jjh.aibackend.suggestion.dto.response.StoreRecommendRespo
 import com.ureca.ocean.jjh.aibackend.suggestion.dto.response.TitleRecommendResponseDto;
 import com.ureca.ocean.jjh.aibackend.suggestion.service.RecommendService;
 
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+@Tag(name = "AI API", description = "AI 관련 API")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/ai")
@@ -29,6 +32,7 @@ public class SuggestionController {
 	
 	private final RecommendService recommendService;
 	
+	@Operation(summary = "제휴처 추천", description = "사용자의 정보를 토대로 제휴처를 하나 추천한다.")
 	@GetMapping("/recommend/store")
 	public ResponseEntity<BaseResponseDto<StoreRecommendResponseDto>> storeRecommend(
 			@Parameter(hidden = true) @RequestHeader("X-User-email") String encodedEmail,
@@ -37,6 +41,7 @@ public class SuggestionController {
 		return ResponseEntity.ok(BaseResponseDto.success(recommendService.storeRecommend(email, request)));
 	}
 	
+	@Operation(summary = "칭호 생성", description = "사용자의 정보를 토대로 칭호를 3가지 제시한다.")
 	@GetMapping("/recommend/title")
 	public ResponseEntity<BaseResponseDto<List<TitleRecommendResponseDto>>> titleRecommend(
 			@Parameter(hidden = true) @RequestHeader("X-User-email") String encodedEmail){
