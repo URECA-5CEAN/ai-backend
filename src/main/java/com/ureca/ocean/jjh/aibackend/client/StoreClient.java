@@ -3,6 +3,7 @@ package com.ureca.ocean.jjh.aibackend.client;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
@@ -56,6 +57,21 @@ public class StoreClient {
         		new ParameterizedTypeReference<>() {}
         );
         BaseResponseDto<List<StoreDto>> body = response.getBody();
+        if (body == null) {
+            throw new AiException(ErrorCode.CLIENT_CALL_ERROR);
+        }
+        return body.getData();
+	}
+	
+	public StoreDto getStoreDetail(UUID storeId) {
+		String url = mapUrl + "api/map/store/" + storeId;
+		ResponseEntity<BaseResponseDto<StoreDto>> response = restTemplate.exchange(
+				url,
+				HttpMethod.GET,
+				null,
+				new ParameterizedTypeReference<>() {}
+		);
+		BaseResponseDto<StoreDto> body = response.getBody();
         if (body == null) {
             throw new AiException(ErrorCode.CLIENT_CALL_ERROR);
         }
