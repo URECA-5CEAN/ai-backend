@@ -21,7 +21,6 @@ import com.ureca.ocean.jjh.aibackend.client.StoreClient;
 import com.ureca.ocean.jjh.aibackend.client.UserClient;
 import com.ureca.ocean.jjh.aibackend.client.dto.StoreDto;
 import com.ureca.ocean.jjh.aibackend.client.dto.StoreUsageDto;
-import com.ureca.ocean.jjh.aibackend.client.dto.UserDto;
 import com.ureca.ocean.jjh.aibackend.common.exception.AiException;
 import com.ureca.ocean.jjh.aibackend.common.exception.ErrorCode;
 import com.ureca.ocean.jjh.aibackend.suggestion.dto.request.StoreRecommendRequestDto;
@@ -31,9 +30,11 @@ import com.ureca.ocean.jjh.aibackend.suggestion.dto.response.TitleRecommendRespo
 import com.ureca.ocean.jjh.aibackend.suggestion.service.RecommendService;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class RecommendServiceImpl implements RecommendService{
 
 	private final ChatClient chatClient;
@@ -66,8 +67,6 @@ public class RecommendServiceImpl implements RecommendService{
 				)
 			    .collect(Collectors.joining(",\n", "[\n", "\n]"));
 		
-		UserDto user = userClient.getUserByEmail(email);
-		
 		String userInfo = getUserInfo(email);
 		String prompt = String.format("""
 				당신은 개인화된 매장 추천을 수행하는 AI 시스템입니다.
@@ -82,9 +81,8 @@ public class RecommendServiceImpl implements RecommendService{
 				추천 시에는 사용자의 위치, 즐겨찾기, 방문 이력, 관심 카테고리 등을 고려하세요.
 				추천 이유는 **사용자와 매장의 연결 고리를 구체적으로** 설명해야 하며, 단순한 나열이나 일반적인 설명은 피해야 합니다.
 				
-				📌 응답은 반드시 **아래 JSON 형식만**으로 출력해야 하며, 그 외의 문장은 포함하지 마세요:
+				📌 응답은 반드시 중괄호로 시작하여 중괄호로 끝나는 **아래 형식만**으로 출력해야 하며, 예시는 아래와 같다.
 				
-				```json
 				{
 				  "storeId": "UUID 형태의 storeId",
 				  "reason": "이 매장을 추천하는 구체적이고 설득력 있는 이유"
@@ -98,7 +96,7 @@ public class RecommendServiceImpl implements RecommendService{
 				당신은 사용자 맞춤형 제휴처를 정확히 선별하고 추천하는 AI입니다.
 
 				당신의 임무는 사용자의 취향, 이용 기록, 현재 위치 등을 종합적으로 분석하여 수많은 매장 중에서 가장 이상적인 매장 하나를 찾아주는 것입니다.
-				사용자에게 실질적인 가치를 제공하는 추천이 되도록 하며, 반드시 지정된 JSON 포맷만 출력해야 합니다.
+				사용자에게 실질적인 가치를 제공하는 추천이 되도록 하며, 반드시 지정된 포맷만 출력해야 합니다.
 				""";
 		
 		String response = chatClient.prompt()
@@ -106,6 +104,8 @@ public class RecommendServiceImpl implements RecommendService{
 								.user(prompt)
 								.call()
 								.content();
+		
+		log.warn("🔍 OpenAI 응답: {}", response);
 		
 		ObjectMapper objectMapper = new ObjectMapper();
 		try {
@@ -122,29 +122,28 @@ public class RecommendServiceImpl implements RecommendService{
 	@Override
 	public List<TitleRecommendResponseDto> titleRecommend(String email) {
 		
-		UserDto user = userClient.getUserByEmail(email);
 		String userInfo = getUserInfo(email);
 		
 		String prompt = String.format("""
 				사용자의 데이터를 분석하여, 해당 사용자에게 어울리는 **칭호(title)** 3개를 지어라.
 				각 칭호는 단순한 설명이 아닌 **개성 있고 창의적인 형태**여야 하며, LLM의 상상력을 발휘할 것.
 
+				👤 사용자 정보:
+				%s
+				
 				🎯 다음 기준을 고려하라:
 				- **재미** 또는 **감성**을 담는다 (예: "적립의 요정", "카페 마스터", "무비 헌터")
 				- **브랜드 선호**, **이용 패턴**, **방문 빈도** 등을 토대로 칭호를 만든다
-				- 칭호에 숫자, 이모지, 밈 표현 등도 허용한다 (단, 과하지 않게)
+				- 칭호에 숫자, 밈 표현 등도 허용한다 (단, 과하지 않게)
 
 				📋 형식:
-				각 칭호는 JSON 배열 형식으로 반환한다. 예시는 아래와 같다.
+				각 칭호는 무조건 아래 배열 형식으로 따른다. 예시는 아래와 같다.
 
 				[
 				  { "title": "쿠폰 장인", "reason": "혜택 사용 빈도가 높은 사용자입니다." },
 				  { "title": "투썸의 사나이", "reason": "최근 투썸플레이스를 5회 이상 방문했습니다." },
 				  { "title": "적립의 요정 🧚", "reason": "즐겨찾기 브랜드를 꾸준히 방문하며 포인트를 모읍니다." }
 				]
-
-				👤 사용자 정보:
-				%s
 				""", userInfo);
 
 		
@@ -161,6 +160,9 @@ public class RecommendServiceImpl implements RecommendService{
 								.user(prompt)
 								.call()
 								.content();
+		
+		log.warn("🔍 OpenAI 응답: {}", response);
+
 		ObjectMapper objectMapper = new ObjectMapper();
 		try {
             TitleRecommendResponseDto[] array = objectMapper.readValue(response, TitleRecommendResponseDto[].class);
