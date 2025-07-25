@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -33,7 +34,7 @@ public class SuggestionController {
 	private final RecommendService recommendService;
 	
 	@Operation(summary = "제휴처 추천", description = "사용자의 정보를 토대로 제휴처를 하나 추천한다.")
-	@GetMapping("/recommend/store")
+	@PostMapping("/recommend/store")
 	public ResponseEntity<BaseResponseDto<StoreRecommendResponseDto>> storeRecommend(
 			@Parameter(hidden = true) @RequestHeader("X-User-email") String encodedEmail,
 			@RequestBody StoreRecommendRequestDto request){
