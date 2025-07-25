@@ -21,6 +21,7 @@ import com.ureca.ocean.jjh.aibackend.client.StoreClient;
 import com.ureca.ocean.jjh.aibackend.client.UserClient;
 import com.ureca.ocean.jjh.aibackend.client.dto.StoreDto;
 import com.ureca.ocean.jjh.aibackend.client.dto.StoreUsageDto;
+import com.ureca.ocean.jjh.aibackend.client.dto.UserDto;
 import com.ureca.ocean.jjh.aibackend.common.exception.AiException;
 import com.ureca.ocean.jjh.aibackend.common.exception.ErrorCode;
 import com.ureca.ocean.jjh.aibackend.suggestion.dto.request.StoreRecommendRequestDto;
@@ -121,6 +122,9 @@ public class RecommendServiceImpl implements RecommendService{
 
 	@Override
 	public List<TitleRecommendResponseDto> titleRecommend(String email) {
+		
+		UserDto user = userClient.getUserByEmail(email);
+		log.info("사용자 이름: {}", user.getName());
 		
 		String userInfo = getUserInfo(email);
 		
