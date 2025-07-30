@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 public class StoreUsageDto {
 	private UUID id;
     private UUID userId;
-    private UUID storeId;
+    private String storeId;
     private UUID benefitId;
     private LocalDateTime visitedAt;
     private Long benefit;
