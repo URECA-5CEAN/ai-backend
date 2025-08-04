@@ -18,5 +18,5 @@ public class StoreUsageDto {
     private String storeId;
     private UUID benefitId;
     private LocalDateTime visitedAt;
-    private Long benefit;
+    private int benefit;
 }
